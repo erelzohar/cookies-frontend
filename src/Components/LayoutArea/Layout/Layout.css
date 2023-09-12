@@ -1,0 +1,22 @@
+.Layout {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: minmax(6vh, auto) minmax(87vh, auto) minmax(5vh, auto);
+}
+.Layout>*{
+    box-sizing: border-box;
+}
+.Layout>footer {
+    grid-column: span 6;
+}
+.Layout>header {
+    grid-column: span 6;
+}
+.Layout>main {
+    grid-column: span 6;
+}

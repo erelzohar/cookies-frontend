@@ -1,0 +1,6 @@
+.CarouselComponent {
+	direction: ltr;
+}
+.CarouselComponent img{
+    max-height: 100vh;
+}

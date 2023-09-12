@@ -1,0 +1,19 @@
+.Register{
+	height: 100%;
+    width: 100%;
+    background: green;
+    
+}
+.modalForm{
+    display: flex;
+    flex-direction: column;
+}
+.modalForm Button{
+    align-self: center;
+}
+/* .text-align::placeholder{
+    text-align: right;
+} */
+/* .modalForm *{
+    margin:1rem;
+} */

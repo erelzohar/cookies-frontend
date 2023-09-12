@@ -1,0 +1,41 @@
+.Home h1, .Home h2, .Home h3, .Home h4{
+    display: inline-block;
+}
+
+.home-heading{
+    font-size: 3vw;
+    margin: 1rem;
+    color: rgba(34, 28, 28, 0.835);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+
+}
+.Home a{
+    text-decoration: none;
+}
+
+.img{
+    width: 10vw;
+    margin: 1rem;
+    margin-top: 0;
+}
+.home-section{
+    margin-top: 7rem;
+    text-align: center;
+}
+
+.inner-about-us{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    font-size: 1.5vw;
+    margin: 2rem;
+    border-radius:10%;
+    letter-spacing: 1.5px;
+}
+.about-us-section{
+    display: flex;
+    justify-content: center;
+}
+.inner-about-us:first-child{
+    
+}

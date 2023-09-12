@@ -1,0 +1,54 @@
+#categoriesDiv {
+    display: none;
+    justify-content: space-around;
+    background: #fff;
+    position: absolute;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    color: red;
+    box-shadow: inset 0 3px 3px grey,2px 2px 2px grey;
+    border-radius: 0 0 7px 7px;
+    transform: translateY(87%);
+    transition: all 1s ease;
+    animation-name: pop,pop2;
+    animation-duration: 300ms;
+    animation-iteration-count: 1;
+}
+.logo{
+    width: 200px;
+}
+
+/* .move-down{
+    display: flex;
+    top: 100%;
+} */
+@-webkit-keyframes popup {
+    from {
+        transform: translateY(80.5%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@-webkit-keyframes pop {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(80%);
+    }
+}
+
+@keyframes pop2 {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(80%);
+    }
+}

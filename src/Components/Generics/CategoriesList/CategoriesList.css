@@ -1,0 +1,8 @@
+.CategoriesList {
+    margin: 1rem;
+    padding: 1rem;
+    margin-top: 9rem;
+	display: grid;
+    gap: 1rem;
+    overflow-x: auto;
+}

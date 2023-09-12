@@ -1,0 +1,17 @@
+.CategoryCard {
+    border-radius: 25%;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2vh;
+    width: 100%;
+    transition: all 400ms;
+}
+.CategoryCard:hover{
+    opacity: 85%;
+}
+.categoryImg{
+    width: 70%;
+    border-radius: 50%;
+}
