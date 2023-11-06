@@ -1,126 +1,58 @@
 import "./Home.css";
-import ProductsCarousel from "../../Generics/ProductsCarousel/ProductsCarousel";
-import { motion } from "framer-motion";
-import logo from "../../../Assets/Images/cookies-logo.jpg";
-import macarons from "../../../Assets/Images/macarons.png";
-import { useEffect, useState } from "react";
+import ProductsCarousel from "../../ProductsArea/ProductsCarousel/ProductsCarousel";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import ProductModel from "../../../Models/ProductModel";
 import CategoriesList from "../../Generics/CategoriesList/CategoriesList";
-import Logo from "../Logo/Logo";
-import { Fade, Slide, Zoom } from "react-awesome-reveal";
-import bookimg from "../../../Assets/Images/transparent-book.png"
-import truck from "../../../Assets/Images/transparent-truck.png"
-import cookie from "../../../Assets/Images/transparent-cookie.png"
-import building from "../../../Assets/Images/building-transparent.png"
-import CategoryModel from "../../../Models/CategoryModel";
+import { Fade, Slide, Zoom, AttentionSeeker } from "react-awesome-reveal";
 import productsService from "../../../Services/Products";
-const products: ProductModel[] = [
-    {
-        _id:"sdr4fsrgs",
-        name: "loremishmish",
-        price: 500,
-        imageName: "abc.jpg",
-        category: "chocolate"
-    }, {
-        _id:"sdrfsr33gs",
-        name: "loremishmish",
-        price: 500,
-        imageName: "abc.jpg",
-        category: "chocolate"
-    }, {
-        _id:"sdrf22srgs",
-        name: "loremishmish",
-        price: 500,
-        imageName: "abc.jpg",
-        category: "chocolate"
-    }, {
-        _id:"sdrf12srgs",
-        name: "loremishmish",
-        price: 500,
-        imageName: "abc.jpg",
-        category: "chocolate"
-    }
-]
+import ContactUs from "../../Generics/ContactUs/ContactUs";
+import { useAppSelector } from "../../../Redux/Store";
+import clockGif from "../../../Assets/Images/clock.gif";
 
 
 
-const headersHoverVariants = {
-    scale: 1.2,
-    color: "rgb(178, 141, 28)",
-    transition: {
-        type: "spring",
-        stiffness: 500,
-        mass: 0.5
-    }
-}
+
 function Home(): JSX.Element {
-    const [mouseCoordinates, setMouseCoordinates] = useState({ x: 0, y: 0 });
-    const [categories,setCategories] = useState<CategoryModel[]>([]);
-    const mouseMoveHandler = (event: MouseEvent) => {
-        setMouseCoordinates({
-            x: event.clientX,
-            y: event.clientY
-        });
-    }
+    const products = useAppSelector(state=>state.productsState.products);
+
 
     useEffect(() => {
-        // window.addEventListener('mousemove', mouseMoveHandler);
-        // return (() => {
-        //     window.removeEventListener('mousemove', mouseMoveHandler);
-        // })
+        if (products.length === 0) {
+            productsService.getProducts();
+        }
 
-        
     }, [])
     return (
         <div className="Home">
-            <Fade fraction={0.4}>
-                <Logo />
-            </Fade>
-            <Fade direction="up" fraction={0.2}>
-                <div className="home-section" >
-                    <CategoriesList />
-                </div>
-            </Fade>
-            <Slide delay={500}>
-                <div className="home-section">
-                    <Link to="/products">
-                        <h1 className="home-heading">Top Sales</h1>
-                    </Link>
-                    <ProductsCarousel products={products} />
+            <Slide direction="down" triggerOnce>
+                <div className="intro-message">
+                    <h1>לרגל החגים 650% הנחה על כל פריט שני</h1>
                 </div>
             </Slide>
-            <Slide delay={500} direction="right" >
-                <div className="home-section" >
-                    <Link to="/products">
-                        <h1 className="home-heading">New Products</h1>
-                    </Link>
-                    <ProductsCarousel products={products} />
-                </div>
-            </Slide>
-            <Slide delay={500}>
-                <div className="home-section">
-                    <Link to="/products">
-                        <h1 className="home-heading">Events</h1>
-                    </Link>
-                    <ProductsCarousel products={products} />
-                </div>
-            </Slide>
-            <div className="home-section about-us-section">
-                <div className="inner-about-us">
-                    <img className="img about-us-img" style={{paddingBottom:"1rem",paddingTop:"1rem"}} src={truck} alt="" />
-                    <h3>deliveries</h3>
-                </div>
-
-                <div className="inner-about-us">
-                    <img className="img about-us-img" src={cookie} alt="" />
-                    <h3>quality</h3>
-                </div>
-                <div className="inner-about-us">
-                    <img className="img about-us-img" src={building} alt="" />
-                    <h3>companies</h3>
-                </div>
+            <div className="home-section" >
+                <h1 className="home-heading">קטגוריות נבחרות</h1>
+                <CategoriesList />
             </div>
+            <div className="home-section">
+                <Link to="/products">
+                    <h1 className="home-heading">המומלצים שלנו</h1>
+                </Link>
+
+                <ProductsCarousel products={products} />
+            </div>
+            <div className="home-section businnessSection">
+                <Zoom>
+                    <AttentionSeeker effect="tada" delay={2500}>
+                        <img src={clockGif} alt="" width="100px" />
+                    </AttentionSeeker>
+                </Zoom>
+                <Fade delay={500} duration={1000} cascade triggerOnce>
+                    <h1>עדיין לא הצטרפתם לשירות החודשי שלנו?</h1>
+                    <h2><span className="faq-link"><Link to={"/business"}>השירות החודשי</Link></span>  של דון ארומה לעסקים, בתי מלון, משרדי חברות ובתים פרטיים. </h2>
+                    <h3>מגוון ניחוחות תוצרת איטליה עד אליכם - שירות לקוחות וקריאת שירות עד 2 ימי עסקים  .</h3>
+                </Fade>
+            </div>
+            <ContactUs />
         </div>
     );
 }

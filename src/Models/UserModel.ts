@@ -19,13 +19,13 @@ class UserModel {
     public token: string;
 
 
-    public convertToFormData():FormData{
+    public static convertToFormData(user:UserModel):FormData{
         const formData = new FormData();
-        formData.append("firstName",this.firstName);
-        formData.append("lastName",this.lastName);
-        formData.append("phone",this.phone);
-        formData.append("email",this.email);
-        formData.append("password",this.password);
+        formData.append("firstName",user.firstName);
+        formData.append("lastName",user.lastName);
+        formData.append("phone",user.phone);
+        formData.append("email",user.email);
+        formData.append("password",user.password);
         return formData
     }
 }

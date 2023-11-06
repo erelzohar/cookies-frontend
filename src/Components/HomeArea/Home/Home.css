@@ -1,29 +1,42 @@
+.Home{
+
+}
 .Home h1, .Home h2, .Home h3, .Home h4{
     display: inline-block;
 }
-
-.home-heading{
-    font-size: 3vw;
+.Home .intro-message{
+    height: 30vh;
+    background-image: url("../../../Assets/Images/horizonal-cover.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    color: honeydew;
+    font-size: 2.5vh;
+}
+.Home .home-heading{
+    font-size: 30px;
     margin: 1rem;
-    color: rgba(34, 28, 28, 0.835);
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
-
+    color: rgba(0, 0, 0, 0.728);
 }
 .Home a{
     text-decoration: none;
 }
-
-.img{
+.Home .img{
     width: 10vw;
     margin: 1rem;
     margin-top: 0;
 }
-.home-section{
-    margin-top: 7rem;
+
+.Home .home-section{
+    direction: rtl;
+    margin-top: 10vh;
     text-align: center;
 }
-
-.inner-about-us{
+.Home .inner-about-us{
     display: flex;
     flex-direction: column;
     align-self: center;
@@ -32,10 +45,18 @@
     border-radius:10%;
     letter-spacing: 1.5px;
 }
-.about-us-section{
+.Home .about-us-section{
     display: flex;
     justify-content: center;
 }
-.inner-about-us:first-child{
-    
+
+.Home .businnessSection{
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+    margin:7rem auto 5rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.728);
+    font-size: large;
+    max-width: 1000px;
 }

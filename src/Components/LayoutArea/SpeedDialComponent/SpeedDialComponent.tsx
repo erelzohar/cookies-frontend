@@ -42,16 +42,16 @@ function SpeedDialComponent(): JSX.Element {
             tooltipOpen
             onClick={() => {
               if (action.name === "Call") {
-                return window.open('tel:0535200876', '_self');
+                return window.open('tel:0503713852', '_self');
               }
               else if (action.name === "WhatsApp") {
-                return window.open('https://wa.me/972535200876', 'blank');
+                return window.open('https://wa.me/972503713852', 'blank');
               }
               else if (action.name === "Instagram") {
-                return window.open('https://www.instagram.com/sweet_world102/', 'blank');
+                return window.open('https://www.instagram.com/don_aromaisr/', 'blank');
               }
               else if (action.name === "Facebook") {
-                return window.open('https://www.facebook.com/sweetword102/', 'blank');
+                return window.open('https://www.facebook.com/profile.php?id=61550822289202&mibextid=LQQJ4d', 'blank');
               }
             }}
           />

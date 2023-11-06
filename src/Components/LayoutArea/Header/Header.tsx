@@ -1,194 +1,194 @@
-import React from 'react';
 import "./Header.css";
-import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem } from '@mui/material';
-import { Menu as MenuIcon } from '@mui/icons-material';
+import { AppBar, Box, Toolbar, Typography, Container } from '@mui/material';
 import { Link } from 'react-router-dom';
-import logo from "../../../Assets/Images/cookies-logo.jpg";
-
-const pages = [{
-    name: "העוגיות של אתי",
-    url: "/products"
-}, {
-    name: "אירועים",
-    url: "/events"
-},
-{
-    name: "המטבח שלנו",
-    url: "/our-kitchen"
-}];
+import logo from "../../../Assets/Images/logo-donaroma.svg";
+import HeaderDrawer, { HeaderDrawerChild } from '../HeaderDrawer/HeaderDrawer';
+import { BsFacebook, BsFillTelephoneFill, BsShieldFillExclamation } from 'react-icons/bs';
+import { AiFillInstagram, AiFillGift, AiOutlineWechat } from "react-icons/ai";
+import { RiWhatsappFill } from "react-icons/ri";
+import { FaAirFreshener, FaBusinessTime, FaQuestion } from "react-icons/fa";
+import DropDownMenu, { dropDownProps } from '../../Generics/DropDownMenu/DropDownMenu';
+import { useEffect } from "react";
+import productsService from "../../../Services/Products";
+import  { useAppSelector } from "../../../Redux/Store";
+import UserSettings from "../../Generics/UserSettings/UserSettings";
 
 
-const categories = ['chocolate', 'vanila', 'fruits', "mishmeshes"];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
+const droprops: dropDownProps = {
+    name: "ניחוחות",
+    children: [
+        {
+            name: "כל הניחוחות",
+            url: "/products/650acfabc4c0c3b0a4da8ad3"
+        }
+    ]
+}
+
+const pages = [
+    {
+        name: "מפיצי ריח דיגיטליים",
+        url: "/products/650acf8fc4c0c3b0a4da8ad2"
+    },
+    {
+        name: "חבילות/מארזים",
+        url: "/products/650adc37c4c0c3b0a4da8aec"
+    },
+    {
+        name: "שירות חודשי לעסקים",
+        url: "/business"
+    },
+    {
+        name: "שאלות נפוצות",
+        url: "/faq"
+    }];
+
+const drawerPages: HeaderDrawerChild[] = [
+    {
+        name: "מפיצי ריח דיגיטליים",
+        url: "/products/650acf8fc4c0c3b0a4da8ad2",
+        icon: <FaAirFreshener />
+    },
+    {
+        name: "חבילות/מארזים",
+        url: "/products/650adc37c4c0c3b0a4da8aec",
+        icon: <AiFillGift />
+    },
+    {
+        name: "שירות חודשי לעסקים",
+        url: "/business",
+        icon: <FaBusinessTime />
+    },
+    {
+        name: "ניחוחות",
+        url: "/products/650acfabc4c0c3b0a4da8ad3",
+        children: []
+    },
+    {
+        name: "שאלות נפוצות",
+        url: "/faq",
+        icon: <FaQuestion />
+    },
+    {
+        name: "אודותינו",
+        url: "/about-us",
+        icon: <AiOutlineWechat />
+    },
+    {
+        name: "תקנון",
+        url: "/policy",
+        icon: <BsShieldFillExclamation />
+    },
+    {
+        name: "צור קשר",
+        url: "/contact-us",
+        icon: <BsFillTelephoneFill />
+    }
+]
+
 function Header(): JSX.Element {
-    let displaytimeout: NodeJS.Timeout;
-    const [timeToHide, setTimeToHide] = React.useState<number>(600);
-    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElNav(event.currentTarget);
-    };
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElUser(event.currentTarget);
-    };
+    const user = useAppSelector(state => state.authState.user);
+    
+    useEffect(() => {
+        let index = drawerPages.findIndex(p => p.children);
+        productsService.getScentCategories()
+            .then(res => {
+                res.forEach(c => {
+                    let obj = { name: c.name, url: "/products/scents/" + c._id };
+                    droprops.children.push(obj);
+                    drawerPages[index].children.push(obj);
+                })
+            })
+    }, [])
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
-
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
-
-    const show = (e: React.MouseEvent) => {
-        if (e.currentTarget.textContent !== "העוגיות של אתי" && e.currentTarget.id !== "categoriesDiv") return;
-
-        if (displaytimeout) clearTimeout(displaytimeout)
-        setTimeToHide(600);
-        const layoutMain = document.getElementById("layout-main");
-        const categoriesDiv = document.getElementById("categoriesDiv");
-        categoriesDiv.style.display = "flex";
-        layoutMain.style.zIndex = '-2';
-        setTimeout(() => {
-            categoriesDiv.style.zIndex = '0';
-        }, 310);
-    }
-    const hide = (e: React.MouseEvent) => {
-        const layoutMain = document.getElementById("layout-main");
-        const categoriesDiv = document.getElementById("categoriesDiv");
-        displaytimeout = setTimeout(() => {
-            // categoriesDiv.style.animationName ="popup"
-            // categoriesDiv.style.transform="translateY(0)"
-            categoriesDiv.style.display = "none";
-            categoriesDiv.style.zIndex = '-1';
-            layoutMain.style.zIndex = '0';
-        }, timeToHide)
-    }
     return (
-        <AppBar color='inherit' enableColorOnDark position="static">
+        <AppBar color='inherit' enableColorOnDark>
             <Container maxWidth="xl" disableGutters>
-                <Toolbar disableGutters>
-                    <Typography
-                        variant="h6"
-                        noWrap
+                <Toolbar className='toolbar-flex' disableGutters>
+                    <Box
+                        sx={{
+                            display: { xs: 'none', md: 'block' },
+                            position: "absolute",
+                            right: '0',
+                            top: '1vh',
+                            marginRight: '1vw',
+                            fontSize: 'medium',
+                            fontFamily: 'sans-serif'
+                        }}
+                    >
+                        <div className="header-side-div" dir="rtl">
+                            {!user && <><Link to="/auth/register">הירשם</Link>
+                                <span> | </span>
+                                <Link to="/auth/login">התחבר</Link>
+                                <span> | </span></>}
+                            <Link to="/about-us">אודותינו</Link>
+                            <span> | </span>
+                            <Link to="/policy">תקנון</Link>
+                            <span> | </span>
+                            <Link to="/contact-us">צור קשר</Link>
+                            {user && <span ><UserSettings {...user} /></span>}
+                        </div>
+                    </Box>
+                    <Box
                         component="a"
                         href="/"
                         sx={{
-                            mr: 2,
                             display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
+                            margin: "0 0 1rem 0",
+                            padding: 0,
+                            height: '15vh',
+                            width: '20vw',
+                            backgroundImage: `url(${logo})`,
+                            backgroundPosition: "center",
+                            backgroundSize: "cover"
                         }}
                     >
-                        <img className='logo' src={logo} alt="LOGO" />
-                    </Typography>
-
+                    </Box>
+                    <Box
+                        sx={{
+                            display: { xs: 'none', md: 'flex' },
+                            position: "absolute",
+                            flexDirection: 'row',
+                            left: '0',
+                            top: '1vh',
+                            fontSize: '30px'
+                        }}
+                    >
+                        <a target="blank" className='social-links' href="https://wa.me/972503713852"><RiWhatsappFill /></a>
+                        <a target="blank" className='social-links' href="https://www.facebook.com/profile.php?id=61550822289202&mibextid=LQQJ4d"><BsFacebook size="25" /></a>
+                        <a target="blank" className='social-links' href="tel:0503713852"><BsFillTelephoneFill size="25" /></a>
+                        <a target="blank" className='social-links' href="https://www.instagram.com/don_aromaisr/"><AiFillInstagram /></a>
+                    </Box>
+                    <Box
+                        sx={{
+                            flexGrow: 1,
+                            display: { xs: 'none', md: 'flex' },
+                            width: "80%",
+                            justifyContent: "space-around",
+                            margin: "0 1rem 1rem 1rem",
+                            borderTop: "1px solid black",
+                            paddingTop: "1rem",
+                            direction: "rtl"
+                        }}>
+                        <DropDownMenu {...droprops} />
+                        {pages.map((p, i) => <Link key={i} className='header-links' to={p.url}>{p.name}</Link>)}
+                        {user?.isAdmin && <Link key={"admin"} className='header-links' to="/manage/admin">עריכה</Link>}
+                    </Box>
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                            color="inherit"
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
-                            sx={{
-                                display: { xs: 'block', md: 'none' },
-                            }}
-                        >
-                            {pages.map((page) => (
-                                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                                    <Link to={page.url}>
-                                        <Typography textAlign="center">{page.name}</Typography>
-                                    </Link>
-                                </MenuItem>
-                            ))}
-                        </Menu>
+                        <HeaderDrawer pages={drawerPages} isAdmin={user?.isAdmin} />
                     </Box>
                     <Typography
                         noWrap
                         component="a"
                         href="/"
                         sx={{
-                            mr: 2,
                             display: { xs: 'flex', md: 'none' },
-                            flexGrow: 1,
+                            flexGrow:1.5
                         }}
                     >
                         <img className='logo' src={logo} alt="LOGO" />
                     </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
-                            <Link
-                                key={page.name}
-                                to={page.url}
-                            // onMouseLeave={hide}
-                            // onMouseEnter={show}
-                            >
-                                <Button
-                                    className='test'
-                                    // onMouseLeave={hide}
-                                    // onMouseEnter={show}
-                                    onClick={handleCloseNavMenu}
-                                    sx={{ my: 2, color: 'black', display: 'block', fontSize: "medium" }}
-                                >
-                                    {page.name}
-                                </Button>
-                            </Link>
-                        ))}
-
-                        {/* <div onMouseEnter={show} onMouseLeave={hide} id='categoriesDiv'>{categories.map(c => <h1 key={c}><Link to="/auth/login">{c}</Link></h1>)}</div> */}
-
-                    </Box>
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Moshe" src="/static/images/avatar/2.jpg" />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box>
                 </Toolbar>
             </Container>
         </AppBar>

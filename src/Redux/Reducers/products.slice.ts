@@ -5,12 +5,16 @@ import CategoryModel from "../../Models/CategoryModel";
 export class ProductsState {
     public products: ProductModel[];
     public categories: CategoryModel[];
+    public scentCategories: CategoryModel[];
+    public productListDisplay: "grid" | "block";
 }
 
 
 const initialState: ProductsState = {
-    products: null,
-    categories: null
+    products: [],
+    categories: [],
+    scentCategories: [],
+    productListDisplay: "grid"
 }
 
 const productsReducer = createSlice({
@@ -20,11 +24,24 @@ const productsReducer = createSlice({
         setProducts: (state, action: PayloadAction<ProductModel[]>) => {
             state.products = action.payload;
         },
+        setProductListDisplay: (state, action: PayloadAction<"grid" | "block">) => {
+            state.productListDisplay = action.payload;
+        },
         setCategories: (state, action: PayloadAction<CategoryModel[]>) => {
             state.categories = action.payload;
         },
+        setScentCategories: (state, action: PayloadAction<CategoryModel[]>) => {
+            state.scentCategories = action.payload;
+        },
         addProduct: (state, action: PayloadAction<ProductModel>) => {
             state.products.unshift(action.payload);
+        },
+        updateProduct: (state, action: PayloadAction<ProductModel>) => {
+            const newProductsState = [ ...state.products ];
+            const index = newProductsState.findIndex(p => p._id === action.payload._id);
+            // newProductsState[index].category = state.categories.find(c=>)
+            newProductsState[index] = action.payload;
+            state.products = newProductsState;
         },
         deleteProduct: (state, action: PayloadAction<string>) => {
             const index = state.products.findIndex(product => product._id === action.payload);
@@ -34,6 +51,6 @@ const productsReducer = createSlice({
     }
 });
 
-export const { setProducts, setCategories, addProduct, deleteProduct } = productsReducer.actions;
+export const { setProducts, setProductListDisplay, setCategories, setScentCategories,updateProduct, addProduct, deleteProduct } = productsReducer.actions;
 
 export default productsReducer.reducer;

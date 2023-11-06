@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import UserModel from "../../Models/UserModel";
+import usersService from "../../Services/Users";
 
-export class AuthState{
-    public user:UserModel;
+export class AuthState {
+    public user: UserModel;
 }
 
 
 const initialState: AuthState = {
-    user : null
+    user: usersService.checkUserExp(JSON.parse(localStorage.getItem("donaroma")))
 }
 
 const userReducer = createSlice({

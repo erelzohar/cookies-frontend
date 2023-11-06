@@ -8,7 +8,8 @@ import axios from "axios";
 import globals from "../../../Services/Globals";
 import store from "../../../Redux/Store";
 import { userLoggedIn } from "../../../Redux/Reducers/user.slice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import usersService from "../../../Services/Users";
 
 
 const resolver: Resolver<Credentials> = async (values) => {
@@ -36,9 +37,11 @@ const resolver: Resolver<Credentials> = async (values) => {
                 }
             } : {},
     };
+
 }
 function Login(): JSX.Element {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<Credentials>({ resolver, mode: 'onBlur' });
+    const navigate = useNavigate();
+    const { register, handleSubmit, reset, formState: { errors }, setError } = useForm<Credentials>({ resolver, mode: 'onBlur' });
     const submit: SubmitHandler<Credentials> = async data => {
         try {
             const formData = new FormData();
@@ -47,10 +50,13 @@ function Login(): JSX.Element {
 
             const res = await axios.post<UserModel>(globals.loginUrl, formData);
             store.dispatch(userLoggedIn(res.data));
+            usersService.SaveUserLocal(res.data);
             notify.success('!התחברת בהצלחה');
+            navigate("/");
+            
         }
         catch (err: any) {
-            notify.error(err.message);
+            notify.error(err);
         }
     }
     const style = {
@@ -58,12 +64,13 @@ function Login(): JSX.Element {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: '40vw',
+        width: '100%',
+        maxWidth:"600px",
         height: "minmax(50%,auto)",
-        bgcolor: '#F0E2B6',
+        bgcolor: '#fff',
         boxShadow: 24,
         p: 4,
-        borderRadius: '7px'
+        borderRadius: '7px',
     }
     return (
         <div className="Login">

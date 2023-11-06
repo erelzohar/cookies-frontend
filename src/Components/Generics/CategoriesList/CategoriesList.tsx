@@ -1,52 +1,20 @@
-import CategoryModel from "../../../Models/CategoryModel";
+import { useEffect, useState } from "react";
 import CategoryCard from "../CategoryCard/CategoryCard";
 import "./CategoriesList.css";
-
-
-
-const cat:CategoryModel[] = [
-{
-    _id:"sdrf343srgs",
-    name:"choco",
-    imageName:""
-},
-{
-    _id:"sdrf44srgs",
-    name:"vanil",
-    imageName:""
-},
-{
-    _id:"sdrfs1rgs",
-    name:"mishmish",
-    imageName:""
-},
-{
-    _id:"sdr21fsrgs",
-    name:"banana",
-    imageName:""
-},
-{
-    _id:"sdr3fsrgs",
-    name:"shumim",
-    imageName:""
-},
-{
-    _id:"sdr4fsrgs",
-    name:"shumim",
-    imageName:""
-},
-{
-    _id:"sd5rfsrgs",
-    name:"shumim",
-    imageName:""
-}
-
-]
+import productsService from "../../../Services/Products";
+import Loader from "../Loader/Loader";
 
 function CategoriesList(): JSX.Element {
+    const [categories, setCategories] = useState([])
+    useEffect(() => {
+        productsService.getCategories()
+            .then(res => { setCategories(res) })
+    }, []);
+
     return (
-        <div className="CategoriesList" style={{gridTemplateColumns:`repeat(${cat.length}, minmax(150px,1fr))`}}>
-            {cat.map((c,i)=><CategoryCard key={i} {...c} />)}
+        <div className={categories.length>0 ? "CategoriesList" : ""}>
+            {categories.length===0 && <Loader/>}
+            {categories.map((c, i) => <CategoryCard key={i} {...c} />)}
         </div>
     );
 }

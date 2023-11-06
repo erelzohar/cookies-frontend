@@ -2,7 +2,13 @@ import { Notyf } from "notyf";
 
 class Notify {
 
-    private notification = new Notyf({ duration: 4000, ripple: false, position: { x: "left", y: "top" } });
+    private notification = new Notyf({
+        duration: 4000,
+        ripple: true,
+        position: { x: "left", y: "top" },
+        dismissible: true,
+        types: [{ type: "custom", background: "rgb(99, 115, 237)", dismissible: true,ripple:true, duration: 4000,icon:"&#9888;" }]
+    });
 
     public success(message: string): void {
         this.notification.success(message);
@@ -11,6 +17,10 @@ class Notify {
     public error(err: any): void {
         const message = this.getErrorMessage(err);
         this.notification.error(message);
+    }
+    public custom(err: any): void {
+        const message = this.getErrorMessage(err);
+        this.notification.open({ type: "custom", message });
     }
 
     private getErrorMessage(err: any) {

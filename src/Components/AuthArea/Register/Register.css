@@ -1,8 +1,7 @@
 .Register{
 	height: 100%;
     width: 100%;
-    background: green;
-    
+    direction: rtl;
 }
 .modalForm{
     display: flex;
@@ -11,9 +10,3 @@
 .modalForm Button{
     align-self: center;
 }
-/* .text-align::placeholder{
-    text-align: right;
-} */
-/* .modalForm *{
-    margin:1rem;
-} */
